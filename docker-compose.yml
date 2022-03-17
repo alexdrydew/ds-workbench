@@ -72,29 +72,6 @@ services:
       --host 0.0.0.0
       --default-artifact-root s3://mlflow/
 
-  jupyterlab:
-    restart: always
-    build: ./jupyterlab
-    image: gorcenski/jupyterlab-allspark-workbench
-    container_name: jupyterlab
-    working_dir: /home/${NB_USER}
-    user: root
-    ports:
-      - "${JUPYTER_PORT}:8888"
-    volumes:
-      - ./notebooks:/home/${NB_USER}
-    networks:
-      - frontend
-      - backend
-    environment:
-      - NB_USER=${NB_USER}
-      - CHOWN_HOME=yes
-      - JUPYTER_ENABLE_LAB=yes
-      - JUPYTERLAB_S3_ENDPOINT=http://s3:${MINIO_PORT}
-      - JUPYTERLAB_S3_ACCESS_KEY_ID=${MINIO_ACCESS_KEY}
-      - JUPYTERLAB_S3_SECRET_ACCESS_KEY=${MINIO_SECRET_ACCESS_KEY}
-      - JUPYTER_TOKEN=${JUPYTER_TOKEN}
-
 volumes:
   db_data:
   minio_data:
